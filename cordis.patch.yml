@@ -1,0 +1,19 @@
+# PriceWin bundle: the remote PriceWin MCP server and the travel-search skill.
+- insert:
+    - id: pricewin-mcp
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: pricewin
+        transport: streamable-http
+        url: https://mcp.price.win/mcp
+    # A second filesystem skill provider limited to this package's skills/ folder,
+    # found by resolving this package from the profile directory it is installed in.
+    - id: pricewin-skills
+      name: '@deepseek-ai/dsh-skill-filesystem'
+      config:
+        providerName: pricewin
+        includeDefaultRoots: false
+        watch: false
+        customSkillDirs:
+          - !!js >-
+            ((path, module) => path.join(path.dirname(module.createRequire(path.join(ctx.get('profileContext').dir, 'package.json')).resolve('@pricewin/dsh/package.json')), 'skills'))(process.getBuiltinModule('node:path'), process.getBuiltinModule('node:module'))

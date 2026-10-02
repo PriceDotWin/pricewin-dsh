@@ -1,0 +1,34 @@
+{
+  "name": "@pricewin/dsh",
+  "version": "1.0.0",
+  "description": "PriceWin for DeepSeek Harness: live hotel and flight prices compared across Booking.com, Agoda, Trip.com and Traveloka, in USD, through the PriceWin MCP server, with the pricewin-travel-search skill.",
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "mcp",
+    "travel",
+    "hotels",
+    "flights"
+  ],
+  "homepage": "https://www.price.win/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PriceDotWin/pricewin-dsh.git"
+  },
+  "bugs": "https://mcp.price.win/support",
+  "author": "PriceWin <support@price.win>",
+  "license": "MIT",
+  "files": [
+    "cordis.patch.yml",
+    "skills"
+  ],
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
