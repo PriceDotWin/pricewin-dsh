@@ -5,7 +5,7 @@
       config:
         serverName: pricewin
         transport: streamable-http
-        url: https://mcp.price.win/mcp
+        url: https://mcp.price.win/mcp?src=dsh
     # A second filesystem skill provider limited to this package's skills/ folder,
     # found by resolving this package from the profile directory it is installed in.
     - id: pricewin-skills

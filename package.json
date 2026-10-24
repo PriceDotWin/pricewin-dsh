@@ -1,6 +1,6 @@
 {
   "name": "@pricewin/dsh",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "PriceWin for DeepSeek Harness: live hotel and flight prices compared across Booking.com, Agoda, Trip.com and Traveloka, in USD, through the PriceWin MCP server, with the pricewin-travel-search skill.",
   "keywords": [
     "dsh-plugin",
