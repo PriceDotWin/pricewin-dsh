@@ -2,7 +2,7 @@
 
 Live hotel and flight prices compared across Booking.com, Agoda, Trip.com and
 Traveloka, in USD, from inside [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
-This is a DSH plugin bundle; its `cordis.patch.yml` adds two entries to the
+This is a DSH plugin bundle; its `cordis.patch.yml` adds three entries to the
 profile:
 
 - **`pricewin-mcp`**: `@deepseek-ai/dsh-mcp-client` connected to the PriceWin MCP
@@ -10,9 +10,35 @@ profile:
 - **`pricewin-skills`**: a `@deepseek-ai/dsh-skill-filesystem` provider that
   serves only this package's `skills/pricewin-travel-search`: how to run a
   search (results arrive in two steps), what to ask when the trip details are
-  incomplete, and how to read prices and links.
+  incomplete, and how to read prices and links;
+- **`pricewin-dsh`**: this package's own plugin, which shows hotel and flight
+  results as cards in the Web UI.
 
-The package contains no code of its own.
+## Result cards
+
+In the Web UI, hotel searches appear as cards with the hotel's photo, rating,
+whole-stay price, nightly price, and one chip per booking site, with the
+cheapest marked. Flight searches list departure and arrival times, airline,
+duration and stops, and every site's fare. Every price links to the site that
+quoted it. Hotels that sell their own rooms through TravelOpen carry a
+"Book direct · pay at the hotel" label. The model still receives the same text
+results, and the cards cost no extra tokens.
+
+![Hotel result card](https://raw.githubusercontent.com/PriceDotWin/pricewin-dsh/main/assets/hotel-card.png)
+
+The plugin has two halves, both plain JavaScript with no build step:
+
+- `lib/index.js` runs in the harness. DSH's MCP bridge passes only the text of a
+  result to the browser, so this half adds a compact `presentationMeta` record
+  of the hotels or fares to the four search tools (`search_hotels_live`,
+  `poll_search_results`, `search_flights_live`, `poll_flight_results`).
+- `lib/client.js` registers those four tool names in the `tool.call.toolview`
+  slot and draws the cards. If a result has no such record, for example in a
+  session from before the plugin was installed, the card shows the result's
+  text.
+
+Card labels follow the DSH interface language (Chinese or English), and prices
+and dates are formatted for the browser's locale.
 
 ## Install
 
@@ -33,7 +59,8 @@ Use the name of your profile in place of `web`. You can also add it from the
 
 The tools appear as `mcp__pricewin__<tool>`.
 
-Tested with DSH 0.2.0-rc.2 (`dsh --profile headless`). DSH is a preview and its
+Tested with DSH 0.2.1-rc.5 (`dsh --profile web`, hotel and flight searches
+through the Web UI, light and dark themes). DSH is a preview and its
 configuration format still changes; if a newer version refuses the bundle,
 please open an issue.
 

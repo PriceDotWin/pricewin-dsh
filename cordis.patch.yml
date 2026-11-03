@@ -1,5 +1,8 @@
-# PriceWin bundle: the remote PriceWin MCP server and the travel-search skill.
+# PriceWin bundle: the remote PriceWin MCP server, the travel-search skill, and
+# this package's own plugin, which draws the search results as cards in the Web UI.
 - insert:
+    - id: pricewin-dsh
+      name: '@pricewin/dsh'
     - id: pricewin-mcp
       name: '@deepseek-ai/dsh-mcp-client'
       config:
